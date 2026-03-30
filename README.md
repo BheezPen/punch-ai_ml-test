@@ -1,17 +1,9 @@
-# Technical Challenge: Mobile App Security Predictive Analysis
+# AI/ML Technical Challenge: Mobile App Security Predictive Analysis
 
 ## **Overview**
-This challenge evaluates an AI/ML engineer's ability to process raw security data, perform feature engineering, and build predictive models that translate technical metrics into business insights. You will be analyzing a dataset of mobile application security audits to predict security postures across global markets and app categories.
+This challenge evaluates your ability to explore an unknown security dataset, perform complex data engineering, and build predictive models that translate raw technical metrics into global security insights. 
 
----
-
-## **Dataset Information**
-The provided **`Security Data.zip`** contains granular security metrics for thousands of iOS and Android applications. Key data points include:
-
-* **App Metadata:** `app_name`, `bundle_id`, `category` (Social, Productivity, Finance, etc.), `os`.
-* **Geographic Data:** `country_origin` (US, China, France, etc.), `data_residency_region`.
-* **Security Metrics:** `num_dangerous_permissions`, `uses_encryption` (Bool), `vulnerability_count`, `tracker_count`.
-* **Target Variable:** `security_score` (Numerical 0–100, where 100 is most secure).
+You are provided with **`archive.zip`**. There is no supplemental documentation. Your first task is to explore the data structures and determine how to link app-level findings to geographic and category-level metadata.
 
 ---
 
@@ -19,26 +11,24 @@ The provided **`Security Data.zip`** contains granular security metrics for thou
 
 You are required to submit **two separate Python notebooks** (`.ipynb`) addressing the following objectives:
 
-### **Task 1: Predictive Modeling by Country**
-**Objective:** Predict the `security_score` based on an app's country of origin and regional data handling.
-* **EDA:** Visualize the distribution of security scores across key regions (focus on **US, China, and France**).
-* **Feature Engineering:** Encode categorical country data and identify if regional regulations (e.g., GDPR) correlate with higher scores.
-* **Modeling:** Build a regression or classification model (e.g., Random Forest, XGBoost).
-* **Insight:** Identify which countries consistently produce the highest and lowest security risks.
+### **Task 1: Geo-Security Risk Modeling**
+**Objective:** Predict the security posture of a country/region based on the apps that interact with it.
+* **Discovery:** Identify how to map applications to specific countries (e.g., via network telemetry, GeoIP, or developer metadata).
+* **Metrics:** Derive a "Country Security Score." You must decide how to weight this (e.g., by traffic volume, app prevalence, or severity of findings).
+* **Modeling:** Build a temporal model to forecast these scores. 
+* **Requirement:** Perform a 10-week forecast and visualize the **Accuracy Degradation** (how the model's error compounds as the forecast horizon extends).
 
-### **Task 2: Predictive Modeling by App Category**
-**Objective:** Predict the `security_score` based on the App Store category.
-* **Category Analysis:** Compare security benchmarks for sectors like **Entertainment, Music, Social, and Productivity**.
-* **Data Imbalance:** Address discrepancies in sample sizes (e.g., "Games" vs. "Finance").
-* **Modeling:** Train a model to find category-specific vulnerabilities (e.g., do Social apps leak more PII via permissions?).
-* **Insight:** Determine if an app’s category is a statistically significant predictor of risk regardless of geography.
+### **Task 2: App Category & Market Dynamics**
+**Objective:** Predict individual app security scores using category identity and market influence.
+* **Discovery:** Locate the features defining an app's "Category" (e.g., Social, Finance, Games) and its "Rank" or "Reach."
+* **Cross-Sectional Modeling:** Predict specific app scores using category and ranking as primary features.
+* **Temporal Modeling:** Track and predict how category-level security benchmarks evolve week-over-week.
+* **Requirement:** Use feature importance analysis to determine if an app's **Category** is a stronger predictor of security than its **Market Rank**.
 
 ---
 
 ## **Submission Requirements**
-1.  **Code Quality:** Clean, commented Python code in Jupyter Notebook format.
-2.  **Visualizations:** Use `matplotlib` or `seaborn` to illustrate feature importance and error distributions.
-3.  **Executive Summary:** A brief write-up at the end of **each** notebook explaining:
-    * Which features were the most predictive?
-    * How you would improve the model with live telemetry data.
-    * Any surprising trends
+1.  **Exploratory Data Analysis (EDA):** Your notebooks must clearly show your process for discovering the relationships between the files in `archive.zip`.
+2.  **Feature Engineering:** Demonstrate how you handled temporal data (lags, rolling averages) and categorical variables.
+3.  **Validation:** Ensure your training/testing splits respect the chronological order of the data (no future-leakage).
+4.  **Executive Summary:** A brief write-up at the end of each notebook explaining your data mapping choices and the "Why" behind your model's predictions.
